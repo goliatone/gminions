@@ -32,7 +32,12 @@ Commands as background jobs.
 
 We want to be able use a single mechanism to generate Events to execute Commands in a distributed infrastructure.
 
-An Event/Command
+An Event can have a `transport` property which will determine which EventBus will be used for the dispatch.
+
+EventBus will handle the `transport.req` property by selecting the right transport.
+CommandBus will handle the `transport.res`.
+
+An Event/Command flow can optionally generate a response. If set transport to be an object with `req` and `res` values it will generate a response using the
 
 Browser (Event) -> Server (EventBus) -> Queue:Router -> CommandBus -> Command
 
@@ -41,10 +46,10 @@ Event:
 {
     type: 'EventType',
     id: 'j57lpaiw-1xk1n62cde7',
-    transport: 'amqp',
+    transport: 'exec',
     transport: {
-        req:'amqp',
-        res:'ws'
+        req: 'exec',
+        res: 'mqtt'
     },
     payload: {}
 }
