@@ -10,7 +10,7 @@ function BackgroundCommand(event) {
 
         setTimeout(()=>{
             console.log('... and we are done :)');
-            resolve({average: 23});
+            resolve({average: Math.round(Math.random() * 100)});
         }, 1000);
     });
 }
