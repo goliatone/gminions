@@ -20,16 +20,19 @@ Commands as background jobs.
                     +-----------+          +---------------+
 ```
 
-Bus Types
+### Bus Types
+
 * EventDispatcher
+* Process Runner
 * IPC multi core applications
 * MQTT
 * Redis
 * AMQP
 * SocketIO
 
-
 We want to be able use a single mechanism to generate Events to execute Commands in a distributed infrastructure.
+
+An Event/Command
 
 Browser (Event) -> Server (EventBus) -> Queue:Router -> CommandBus -> Command
 
