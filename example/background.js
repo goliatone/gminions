@@ -10,7 +10,7 @@ function BackgroundCommand(event) {
 
         setTimeout(()=>{
             console.log('... and we are done :)');
-            resolve({result: 23});
+            resolve({average: 23});
         }, 1000);
     });
 }
