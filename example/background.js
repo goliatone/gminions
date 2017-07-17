@@ -16,29 +16,3 @@ function BackgroundCommand(event) {
 }
 
 module.exports = BackgroundCommand;
-
-if(!module.parent) {
-    let event = process.env.MINION_PAYLOAD;
-    event = JSON.parse(event);
-
-    const mqtt = require('mqtt');
-    const client  = mqtt.connect('mqtt://test.mosquitto.org');
-
-    BackgroundCommand(event).then((result)=>{
-        event.result = result;
-        let message = JSON.stringify(event);
-
-        client.on('connect', function () {
-            client.publish(`minion/${event.id}/complete`, message);
-            client.end();
-        });
-
-    }).catch((err)=>{
-        client.on('connect', function () {
-            event.error = err;
-            let message = JSON.stringify(event);
-            client.publish(`minion/${event.id}/error`, message);
-            client.end();
-        });
-    });
-}
