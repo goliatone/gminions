@@ -1,0 +1,34 @@
+{
+  "name": "gminions",
+  "version": "0.0.0",
+  "description": "Commands as background tasks",
+  "main": "index.js",
+  "scripts": {
+    "test": "bogota",
+    "dtest": "watch bogota test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goliatone/gminions.git"
+  },
+  "keywords": [],
+  "author": "goliatone <hello@goliatone.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goliatone/gminions/issues"
+  },
+  "homepage": "https://github.com/goliatone/gminions#readme",
+  "dependencies": {
+    "gextend": "^0.3.0"
+  },
+  "devDependencies": {
+    "bogota": "^2.0.4",
+    "mqtt": "^2.9.1",
+    "nyc": "^10.3.2",
+    "sinon": "^2.2.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3",
+    "tape-catch": "^1.0.6",
+    "watch": "^1.0.2"
+  }
+}
