@@ -69,28 +69,58 @@ Event:
 We can have a single interface to emit events over different transports.
 - mqtt.js: browser, devices, server.
 
+NOTES: We probably want to make semantics different from regular EventEmitter. Replace emit/on, use pub/sub
 Make an EventDispatcher that extends EventEmitter and implements pattern matching. We can use the same as MQTT. We could also add Promises?
 
 ```js
-let dispatcher = new EventDispatcher(config);
-dispatcher.on({
+let dispatcher = new EventHub(config);
+
+dispatcher.sub({
     type: 'ww/readers/#/update',
     transport: ['mqtt', 'ws']
 }, (event)=>{
 
 });
 
-dispatcher.emit({
+dispatcher.pub({
     type: 'ww/readers/2313131/update',
     transport: 'mqtt',
     payload: {}
 });
 ```
 
+Unified topic syntax:
+`.` vs `/` topic level separators
+
+NATS patterns:
+* `foo.*.baz`: `*` matches any token, at any level of the subject.
+* `foo.>`: `>` matches any length of the tail of a subject, and can only be the last token.
+(NATS supports request reply)
+
+MQTT patterns:
+* `foo/+/baz`: single level wildcard, only covers one topic level
+* `foo/#`: multilevel level wildcard, is always the last character in the topic and it is preceded by a forward slash
+(topics that start with a $ are reserved for internal statistics of the MQTT broker)
+
+AMQP patterns:
+* `foo.*.baz`: `*` can substitute for exactly one word.
+* `foo.#`:  can substitute for zero or more words.
+    * `foo.#.bar`:
+
+
+## Protocols in the Browser
+
+* WebSockets
+    * MQTT
+    * NATS
+
 https://www.npmjs.com/package/pattern-emitter
 https://www.npmjs.com/package/pattern-emitter-promise
 https://www.npmjs.com/package/mqtt-emitter
 
+
+mqtt patterns:
+https://github.com/RangerMauve/mqtt-pattern
 ### Getting Started
 
 ```
