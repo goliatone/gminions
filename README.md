@@ -37,6 +37,7 @@ Commands as background jobs.
 * AMQP
 * SocketIO
 
+
 We want to be able use a single mechanism to generate Events to execute Commands in a distributed infrastructure.
 
 An Event can have a `transport` property which will determine which EventBus will be used for the dispatch.
@@ -61,6 +62,18 @@ Event:
     payload: {}
 }
 ```
+
+
+### EventHub
+
+We can have a single interface to emit events over different transports.
+- mqtt.js: browser, devices, server.
+
+Make an EventDispatcher that extends EventEmitter and implements pattern matching. We can use the same as MQTT.
+
+https://www.npmjs.com/package/pattern-emitter
+
+https://www.npmjs.com/package/mqtt-emitter
 
 ### Getting Started
 
