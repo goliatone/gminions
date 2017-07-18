@@ -71,8 +71,24 @@ We can have a single interface to emit events over different transports.
 
 Make an EventDispatcher that extends EventEmitter and implements pattern matching. We can use the same as MQTT. We could also add Promises?
 
-https://www.npmjs.com/package/pattern-emitter
+```js
+let dispatcher = new EventDispatcher(config);
+dispatcher.on({
+    type: 'ww/readers/#/update',
+    transport: ['mqtt', 'ws']
+}, (event)=>{
 
+});
+
+dispatcher.emit({
+    type: 'ww/readers/2313131/update',
+    transport: 'mqtt',
+    payload: {}
+});
+```
+
+https://www.npmjs.com/package/pattern-emitter
+https://www.npmjs.com/package/pattern-emitter-promise
 https://www.npmjs.com/package/mqtt-emitter
 
 ### Getting Started
