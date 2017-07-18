@@ -69,7 +69,7 @@ Event:
 We can have a single interface to emit events over different transports.
 - mqtt.js: browser, devices, server.
 
-Make an EventDispatcher that extends EventEmitter and implements pattern matching. We can use the same as MQTT.
+Make an EventDispatcher that extends EventEmitter and implements pattern matching. We can use the same as MQTT. We could also add Promises?
 
 https://www.npmjs.com/package/pattern-emitter
 
