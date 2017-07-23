@@ -10,10 +10,9 @@ const TransportManager = require('../lib/transports/transportManager');
 
 let app = {name: 'TestApp'};
 
-let manager = new TransportManager();
-manager.add('mqtt', new MqttTransport());
-manager.add('emitter', new EventTransport());
-manager.setDefault('mqtt');
+let manager = new TransportManager({
+    defaultTransport: 'mqtt'
+});
 
 let dis = new EventHub({
     transport: manager,
