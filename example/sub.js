@@ -1,11 +1,6 @@
 'use strict';
 
 const EventHub = require('../lib/events/EventBus');
-
-const Event = require('../lib/events/Event');
-const Command = require('../lib/commands/Command');
-const EventTransport = require('../lib/transports/emitter');
-const MqttTransport = require('../lib/transports/mqtt');
 const TransportManager = require('../lib/transports/transportManager');
 
 let app = {name: 'TestApp'};

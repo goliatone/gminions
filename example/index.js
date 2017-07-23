@@ -11,9 +11,7 @@ const TransportManager = require('../lib/transports/transportManager');
 let app = {name: 'TestApp'};
 
 let manager = new TransportManager({
-    transports: [
-
-    ]
+    transports: []
 });
 
 let dis = new EventHub({
