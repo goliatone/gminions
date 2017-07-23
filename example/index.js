@@ -10,20 +10,14 @@ const TransportManager = require('../lib/transports/transportManager');
 
 let app = {name: 'TestApp'};
 
-let manager = new TransportManager();
-manager.add('mqtt', new MqttTransport());
-manager.add('emitter', new EventTransport());
-manager.setDefault('emitter');
+let manager = new TransportManager({
+    transports: [
+
+    ]
+});
 
 let dis = new EventHub({
     transport: manager,
-    // transport: new EventTransport(),
-//     transports: {
-//         mqtt: new MqttTransport(),
-//         default: new EventDispatcher()
-//     },
-// let dis = new MqttTransport({
-// let dis = new EventDispatcher({
     context: app
 });
 
@@ -40,7 +34,7 @@ dis.subscribe('app.*', (event)=>{
 
 dis.publish({
     type: 'app.run.pre',
-    transport: ['emitter', 'mqtt'],
+    transport: [EventTransport.ID, MqttTransport.ID],
     message: {
         age: 1
     }
@@ -48,7 +42,7 @@ dis.publish({
 
 dis.publish({
     type: 'app.run',
-    transport: ['emitter', 'mqtt'],
+    transport: [EventTransport.ID, MqttTransport.ID],
     message: {
         age: 1
     }
@@ -56,7 +50,7 @@ dis.publish({
 
 dis.publish({
     type: 'app.run.post',
-    transport: ['emitter', 'mqtt'],
+    transport: [EventTransport.ID, MqttTransport.ID],
     message: {
         age: 1
     }
@@ -64,7 +58,7 @@ dis.publish({
 
 dis.publish({
     type: 'app.run.post',
-    transport: ['emitter', 'mqtt'],
+    transport: [EventTransport.ID, MqttTransport.ID],
     message: {
         age: 1
     }
