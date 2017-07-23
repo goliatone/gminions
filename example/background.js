@@ -16,3 +16,24 @@ function BackgroundCommand(event) {
 }
 
 module.exports = BackgroundCommand;
+
+function handler(){
+    var h = new Map();
+    var i = {};
+    h.run = function(e){
+        return new Promise(function(resolve, reject) {
+            let c = h.get(e.type);
+            if(c.prototype.execute){
+                c = new c();
+                resolve(c.execute(e));
+            } else {
+                resolve(c(e));
+            }
+        });
+    };
+    h.register = function(type, command){
+        h.set(type, command);
+    }
+
+    return h;
+}
