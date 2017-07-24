@@ -35,4 +35,4 @@ let command = new CommandBus({
 });
 
 command.add('app.run', AppRunCommand);
-command.add('app.run.post', PostRunCommand);
+command.add('app.run.+', PostRunCommand);
