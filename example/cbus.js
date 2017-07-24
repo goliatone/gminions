@@ -36,17 +36,3 @@ let command = new CommandBus({
 
 command.add('app.run', AppRunCommand);
 command.add('app.run.post', PostRunCommand);
-
-dis.subscribe({
-    once: true,
-    type: 'app.+.post',
-    // transport: ['mqtt'],
-}, (event)=>{
-    console.log('† Only once subscriber: %j', event);
-    command.execute(event);
-});
-
-dis.subscribe('app.*', (event)=>{
-    console.log('√ subscriber: %j', event);
-    command.execute(event);
-});
