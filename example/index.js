@@ -11,7 +11,12 @@ const TransportManager = require('../lib/transports/transportManager');
 let app = {name: 'TestApp'};
 
 let manager = new TransportManager({
-    transports: []
+    transports: [],
+    config: {
+        mqtt: {
+            url: url: process.env.NODE_MQTT_URL
+        }
+    }
 });
 
 let dis = new EventHub({
