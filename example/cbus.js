@@ -23,9 +23,16 @@ class PrePostCommand extends Command {
     }
 }
 
+console.log('- Start CommandBus Example...');
+
 let dis = new EventHub({
     transport: new TransportManager({
-        defaultTransport: 'mqtt'
+        defaultTransport: 'mqtt',
+        config: {
+            mqtt: {
+                url: process.env.NODE_MQTT_URL
+            }
+        }
     }),
     context: {
         name: 'TestApp'
@@ -40,7 +47,10 @@ command.add('app.run', AppRunCommand);
 
 command.add('app.run', new BackgroundCommand({
     commandsPath: './example',
-    runner: 'runner.js'
+    runner: 'runner.js',
+    onExecute: function(event){
+        console.log('[%s] %s BackgroundCommand: \t', getTime(), event.uid, event.type);
+    }
 }));
 
 command.add('app.run', function FunctionCommand(event){
