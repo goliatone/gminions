@@ -12,7 +12,7 @@ client.on('connect', ()=>{
 
     function notify(event, status) {
         let message = JSON.stringify(event);
-        let topic = `minion/${event.id}/${status}`;
+        let topic = `minion/${event.uid}/${status}`;
 
         console.log('Topic: %s', topic);
 
