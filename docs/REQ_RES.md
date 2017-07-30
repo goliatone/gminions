@@ -67,3 +67,5 @@ dispatcher.on({
     transport: 'ws'
 }, browserClient.forward.bind(browserClient));
 ```
+
+https://appendto.com/2013/04/request-response-pattern-in-postal-js/
