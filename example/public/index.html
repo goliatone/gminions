@@ -51,7 +51,9 @@
                     payload
                 };
 
-                if(subs.replyTo) event.replyTo = subs.replyTo;
+                if(subs.replyTo){
+                    event.replyTo = subs.replyTo;
+                }
 
                 this.emit('core.client.publish', event);
             };
@@ -63,8 +65,11 @@
 
             socket.publish('client.run', {
                 clientid: 'browser-client',
+                reply: true,
                 time: Date.now()
             });
+
+            // socket.request()
             ///////////////////////////////////////////
             // DEBUG
             ///////////////////////////////////////////
