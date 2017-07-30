@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <style>
+    html, body{
+        background-color: #212121;
+        color: #fafafa;
+    }
+    </style>
+    <head>
+        <script src='/socket.io/socket.io.js'></script>
+        <script>
+            var socket = io();
+            socket._subscriptions = {};
+            socket.makeUid = function() {
+                const timestamp = (new Date()).getTime().toString(36);
+                const randomString = (Math.random() * 10000000000000000).toString(36).replace('.', '');
+                return `${timestamp}-${randomString}`;
+            };
+            ///////////////////////////////////////////
+            // EventHub LOGIC
+            ///////////////////////////////////////////
+            socket.on('core.client.message', (event)=>{
+                console.log('message', event);
+                if(socket._subscriptions[event.type]){
+                    socket._subscriptions[event.type].map((handler)=>{
+                        handler(event);
+                    });
+                }
+            });
+
+            socket.on('error', console.error.bind(console));
+            socket.on('message', console.log.bind(console));
+
+            socket.subscribe = function(type, handler){
+                this.emit('core.client.subscribe', {
+                    type
+                });
+                if(!this._subscriptions[type]){
+                    this._subscriptions[type] = [];
+                }
+                this._subscriptions[type].push(handler);
+            };
+
+            socket.publish = function(subs, payload){
+                if(typeof subs === 'string') {
+                    subs = {type: subs}
+                }
+                let event = {
+                    type: subs.type,
+                    uid: this.makeUid(),
+                    payload
+                };
+
+                if(subs.replyTo) event.replyTo = subs.replyTo;
+
+                this.emit('core.client.publish', event);
+            };
+
+            ///////////////////////////////////////////
+            // APP LOGIC
+            ///////////////////////////////////////////
+            socket.subscribe('app.run.pre', addMessage);
+
+            socket.publish('client.run', {
+                clientid: 'browser-client',
+                time: Date.now()
+            });
+            ///////////////////////////////////////////
+            // DEBUG
+            ///////////////////////////////////////////
+            function addMessage(message) {
+
+                if(typeof message !== 'string') {
+                    console.log('parsing...');
+                    message = JSON.stringify(message, null, 4);
+                }
+
+                var text = document.createTextNode(message),
+                    el = document.createElement('li'),
+                    code = document.createElement('code'),
+                    messages = document.getElementById('messages');
+                code.appendChild(text)
+                el.appendChild(code);
+                messages.appendChild(el);
+            }
+        </script>
+    </head>
+    <body>
+        <ul id='messages'></ul>
+    </body>
+</html>
