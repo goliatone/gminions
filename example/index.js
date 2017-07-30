@@ -11,7 +11,12 @@ const TransportManager = require('../lib/transports/transportManager');
 let app = {name: 'TestApp'};
 
 let manager = new TransportManager({
-    transports: []
+    transports: [],
+    config: {
+        mqtt: {
+            url: url: process.env.NODE_MQTT_URL
+        }
+    }
 });
 
 let dis = new EventHub({
@@ -30,11 +35,14 @@ dis.subscribe('app.*', (event)=>{
     console.log('√ subscriber: %j', event);
 });
 
+////////////////////////////////////////////
+// Publish Events
+////////////////////////////////////////////
 dis.publish({
     type: 'app.run.pre',
     transport: [EventTransport.ID, MqttTransport.ID],
     message: {
-        age: 1
+        description: 'First pre run event'
     }
 });
 
@@ -42,7 +50,7 @@ dis.publish({
     type: 'app.run',
     transport: [EventTransport.ID, MqttTransport.ID],
     message: {
-        age: 1
+        description: 'Run event'
     }
 });
 
@@ -50,14 +58,6 @@ dis.publish({
     type: 'app.run.post',
     transport: [EventTransport.ID, MqttTransport.ID],
     message: {
-        age: 1
-    }
-});
-
-dis.publish({
-    type: 'app.run.post',
-    transport: [EventTransport.ID, MqttTransport.ID],
-    message: {
-        age: 1
+        description: 'First post run'
     }
 });

@@ -4,30 +4,39 @@ const EventHub = require('../lib/events/EventBus');
 
 const Event = require('../lib/events/Event');
 const Command = require('../lib/commands/Command');
+const BackgroundCommand = require('../lib/commands/BackgroundCommand');
+
 const CommandBus = require('../lib/commands/CommandBus');
 const EventTransport = require('../lib/transports/emitter');
 const MqttTransport = require('../lib/transports/mqtt');
 const TransportManager = require('../lib/transports/transportManager');
 
-class AppRunCommand extends Command{
+class AppRunCommand extends Command {
     execute(event){
         console.log();
         console.log('-----------');
-        console.log('AppRunCommand: %j', event);
+        console.log('[%s] %s AppRunCommand:   \t', getTime(), event.uid, event.type);
     }
 }
 
-class PostRunCommand extends Command{
+class PrePostCommand extends Command {
     execute(event){
         console.log();
         console.log('-----------');
-        console.log('PostRunCommand: %j', event);
+        console.log('[%s] %s PrePostCommand:  \t', getTime(), event.uid, event.type);
     }
 }
+
+console.log('- Start CommandBus Example...');
 
 let dis = new EventHub({
     transport: new TransportManager({
-        defaultTransport: 'mqtt'
+        defaultTransport: 'mqtt',
+        config: {
+            mqtt: {
+                url: process.env.NODE_MQTT_URL
+            }
+        }
     }),
     context: {
         name: 'TestApp'
@@ -39,10 +48,32 @@ let command = new CommandBus({
 });
 
 command.add('app.run', AppRunCommand);
-command.add('app.run.+', PostRunCommand);
+
+command.add('app.run', new BackgroundCommand({
+    commandsPath: './example',
+    runner: 'runner.js',
+    onExecute: function(event){
+        console.log();
+        console.log('-----------');
+        console.log('[%s] %s BackgroundCommand: \t', getTime(), event.uid, event.type);
+    }
+}));
+
+command.add('app.run', function FunctionCommand(event){
+    console.log();
+    console.log('-----------');
+    console.log('[%s] %s FunctionCommand: \t', getTime(), event.uid, event.type);
+});
+
+
+command.add('app.run.+', PrePostCommand);
 
 command.add('client.run', function(event){
     console.log();
     console.log('-----------');
-    console.log('Function Command:', event);
+    console.log('[%s] %s FunctionCommand: \t', getTime(), event.uid, event.type);
 });
+
+function getTime(){
+    return new Date().toLocaleTimeString();
+}
