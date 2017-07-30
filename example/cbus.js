@@ -11,12 +11,16 @@ const TransportManager = require('../lib/transports/transportManager');
 
 class AppRunCommand extends Command{
     execute(event){
+        console.log();
+        console.log('-----------');
         console.log('AppRunCommand: %j', event);
     }
 }
 
 class PostRunCommand extends Command{
     execute(event){
+        console.log();
+        console.log('-----------');
         console.log('PostRunCommand: %j', event);
     }
 }
@@ -36,3 +40,9 @@ let command = new CommandBus({
 
 command.add('app.run', AppRunCommand);
 command.add('app.run.+', PostRunCommand);
+
+command.add('client.run', function(event){
+    console.log();
+    console.log('-----------');
+    console.log('Function Command:', event);
+});
