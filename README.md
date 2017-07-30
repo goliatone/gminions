@@ -202,6 +202,13 @@ class CommandBus {
 ### Request Response
 Similar but unlike HTTP req/res. Is it totally necessary?  
 
+We could add a resolve/reject to the event, a progress method
+
+Event {
+    reject(err){}
+    resolve(result){}
+    progress(percent){}
+}
 
 ### Topic Interops
 
