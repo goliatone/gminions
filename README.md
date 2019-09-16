@@ -45,12 +45,11 @@ Execute a command as a separate thread/process. (Should it be a detached process
 We should be able to execute a command both inside an application and as a separate process.
 This requires a command runner that will provide the context for the command.
 
-
 ### Bus Types
 
 * EventDispatcher
 * Process Runner
-* IPC multi core applications
+* IPC Local (inter-process) communication transport.
 * MQTT
 * Redis
 * AMQP
