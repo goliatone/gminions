@@ -33,6 +33,7 @@ Forwarder
 Queue
 Persistence
 
+
 /// How to have a browser client register event listeners to server side events?
 ```js
 let core = new EventHub.IO();
