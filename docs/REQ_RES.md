@@ -33,9 +33,6 @@ Forwarder
 Queue
 Persistence
 
-
-
-
 /// How to have a browser client register event listeners to server side events?
 ```js
 let core = new EventHub.IO();
@@ -69,3 +66,13 @@ dispatcher.on({
 ```
 
 https://appendto.com/2013/04/request-response-pattern-in-postal-js/
+
+
+### WebSockets
+Most transports rely on having a remote service provider. MQTT accepts an URL, same with AMQP. Why Should WS be different?
+We might need the ability to broadcast messages, which might not be possible with a ws client, we might need the ws server.
+
+pub/sub over ws
+
+
+NOTE: Currently there is no way to guaranty a 1:1 delivery, since many subscribers can listen for a given topic (since we support wildcards). Do we want to make this behaviour different?
